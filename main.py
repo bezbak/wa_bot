@@ -6,7 +6,6 @@ from create_db import create_table
 from answers import *
 # BASE_DIR = 
 UPLOAD_FOLDER = './media'
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 # Init the Flask App
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -15,13 +14,19 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 @app.route('/incoming', methods=['POST'])
 def incoming():
     incoming_que = request.values.get('Body', '').lower()
-    print("Question: ", incoming_que)
     bot_resp = MessagingResponse()
     msg = bot_resp.message()
-            
-    msg.body(incoming_que)
+    menu1 = menu(incoming_que)
+    msg.body(str(menu1))
+    print('работай')
     return str(bot_resp)
 
+@app.route('/test', methods=['GET', "POST"])
+def test():
+    bot_resp = MessagingResponse()
+    msg = bot_resp.message()
+    msg.body(hello_text)
+    return str(bot_resp)
 @app.route('/admin', methods=['POST', "GET"])
 def admin():
     if request.method == 'POST':
